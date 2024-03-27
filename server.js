@@ -11,7 +11,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true}));
 
 const db = require('./app/models');
-db.sequelize.sync({ force:false }).then(() => {
+db.sequelize.sync({ force: false }).then(() => {
     console.log('Database syncing...');
 });
 
@@ -20,6 +20,8 @@ app.get('/', (req, res) => {
 });
 
 require('./app/routes/employee.route')(app);
+require('./app/routes/company.route')(app);
+require('./app/routes/project.route')(app);
 //const router = require('./app/routes/employee.route');
 //app.use('/employees', router)
 

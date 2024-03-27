@@ -23,11 +23,30 @@ db.sequelize = sequelize;
 
 db.employee = require("../models/employee.model")(sequelize, Datatype);
 db.setting = require("../models/setting.model")(sequelize, Datatype);
+db.company = require("../models/company.model")(sequelize, Datatype);
+db.project = require("../models/project.model")(sequelize, Datatype);
+db.employee_project = require("../models/employee_project.model")(sequelize, Datatype);
 
-//One to One
+//One to One Relation
 db.employee.hasOne(db.setting, {
     onDelete: 'CASCADE'
 });
 db.setting.belongsTo(db.employee);
+
+//One to Many Relation
+db.company.hasMany(db.employee, {
+    onDelete: 'CASCADE'
+});
+db.employee.belongsTo(db.company);
+
+//Many to Many Relation
+db.employee.belongsToMany(db.project, {
+    through: "Employee_project",
+    onDelete: 'CASCADE'
+});
+db.project.belongsToMany(db.employee, {
+    through: "Employee_project",
+    onDelete: 'CASCADE'
+});
 
 module.exports = db;
